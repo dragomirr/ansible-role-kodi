@@ -1,54 +1,58 @@
 ---
-- name: install dependencies
-  apt:
+- name: Install dependencies
+  ansible.builtin.apt:
     name: "{{ kodi_dependencies }}"
-    update_cache: yes
+    update_cache: true
     state: "{{ kodi_dependencies_state }}"
   environment:
     DEBIAN_FRONTEND: noninteractive
 
-- name: add kodi repository
-  apt_repository:
+- name: Add kodi repository
+  ansible.builtin.apt_repository:
     repo: "{{ kodi_repository }}"
-    update_cache: no
+    update_cache: false
 
-- name: install kodi
-  apt:
+- name: Install kodi
+  ansible.builtin.apt:
     name: kodi
-    update_cache: yes
+    update_cache: true
     state: "{{ kodi_package_state }}"
 
-- name: create kodi user
-  user:
+- name: Add kodi user
+  ansible.builtin.user:
     name: kodi
     home: "{{ kodi_home }}"
-    create_home: yes
+    create_home: true
     uid: 420
     groups: audio,video
     shell: /usr/bin/nologin
 
-- name: create addons directory
-  file:
+- name: Create addons directory
+  ansible.builtin.file:
     dest: "{{ kodi_home }}/addons"
     state: directory
     owner: kodi
     group: kodi
+    mode: "0755"
 
-- name: download addons
-  get_url:
+- name: Download addons
+  ansible.builtin.get_url:
     url: "{{ item }}"
     dest: "{{ kodi_home }}/addons"
     owner: kodi
     group: kodi
+    mode: "0644"
   loop: "{{ kodi_addons }}"
 
-- name: copy systemd service
-  copy:
-    src: lib/systemd/system/kodi.service
-    dest: /lib/systemd/system/kodi.service
+- name: Copy systemd service
+  ansible.builtin.copy:
+    src: etc/systemd/system/kodi.service
+    dest: /etc/systemd/system/kodi.service
+    mode: "0644"
 
-- name: start and enable kodi
-  systemd:
+- name: Start and enable kodi
+  ansible.builtin.systemd:
     name: kodi
     state: started
-    enabled: yes
+    enabled: true
+    daemon_reload: true
