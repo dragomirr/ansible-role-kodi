@@ -1,0 +1,22 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+platforms:
+  - name: ubuntu2204
+    box: ubuntu/jammy64
+    cpu: 1
+    memory: 2048
+  - name: ubuntu2004
+    box: ubuntu/focal64
+    cpu: 1
+    memory: 2048
+  - name: ubuntu1804
+    box: ubuntu/bionic64
+    cpu: 1
+    memory: 2048
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

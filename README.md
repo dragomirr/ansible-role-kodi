@@ -1,10 +1,10 @@
 # Ansible role: Kodi
 
-Ansible role for installing Kodi media server on Ubuntu server 18.04
+Ansible role for installing Kodi media server on Ubuntu server
 
 ## Requirements
 
-Setting ansible python interpreter to python3.
+None.
 
 ## Dependencies
 
@@ -14,7 +14,18 @@ None.
 
     - hosts: all
       roles:
-        - { role: dragomirr.kodi, ansible_python_interpreter: /usr/bin/python3 }
+        - role: dragomirr.kodi
+
+## Testing
+
+Testing is done using [molecule](https://molecule.readthedocs.io/) with [vagrant](https://www.vagrantup.com/) and [virtualbox](https://www.virtualbox.org/).
+
+Testing dependencies:
+
+  - [vagrant](https://www.vagrantup.com/)
+  - [virtualbox](https://www.virtualbox.org/)
+  - molecule python package
+  - molecule-vagrant python package
 
 ## Licence
 
